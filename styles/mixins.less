@@ -1,0 +1,17 @@
+// 设置字体大小和颜色
+.set-font-color(@size: 24px, @color: #333, @weight: normal) {
+    font-size: @size;
+    color: @color;
+    font-weight: @weight;
+} // 单行溢出
+.one-line-precess {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@main-color: #0F8EE9;
+@main-opacity-color: #EDF8FF;
+@border-color: #f5f5f5;
