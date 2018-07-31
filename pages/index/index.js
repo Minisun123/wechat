@@ -7,19 +7,35 @@ Page(observer(
   {
     props: store,
     data: {
-      motto: 'Hello World',
-      userInfo: {},
-      hasUserInfo: false,
-      canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     //事件处理函数
     bindViewTap: function () {
       wx.navigateTo({
-        url: '../logs/logs'
+        url: '../detail/detail'
       })
     },
     async onLoad() {
-      await this.props.getList();
-    }
+      wx.showLoading({
+        title: '数据加载中',
+        mask: true
+      });
+
+      await this.props.getArticalList();
+
+      wx.hideLoading();
+    },
+    /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+    onPullDownRefresh: function () {
+      this.props.clearAll();
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function () {
+      this.props.rankIndex = this.props.lastRankIndex;
+    },
   }
 ))

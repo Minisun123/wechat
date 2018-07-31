@@ -1,4 +1,18 @@
 <!--index.wxml-->
-<view class="container">
-  <text>xxx</text>
+<view class="page-index-container">
+  <view class="article-list">
+    <block wx:if="{{props.articalListLength}}">
+      <view  bindtap="bindViewTap" class="article-item" wx:for="{{props.articalList}}" wx:key="{{item.objectId}}">
+        <view class="title">
+          <text class="column" wx-if="{{item.original}}">专栏.</text>
+          <text class="username">{{item.user.username}}</text>
+        </view>
+        <view class="content">{{item.title}}</view>
+        <view class="status">
+          <text class="collection"><text class="iconfont icon-aixin"></text> {{item.collectionCount}}</text>
+          <text class="comments"><text class="iconfont icon-xiaoxi"></text> {{item.commentsCount}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
 </view>

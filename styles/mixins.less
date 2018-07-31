@@ -12,6 +12,20 @@
     white-space: nowrap;
 }
 
+.retina-border(@top:0,@bottom:auto,@left:0,@right:0) {
+    position: relative;
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 1px;
+        background-color: #f5f5f5;
+        transform: scaleY(0.5);
+    }
+}
+
 @main-color: #0F8EE9;
 @main-opacity-color: #EDF8FF;
 @border-color: #f5f5f5;
