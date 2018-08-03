@@ -1,2 +1,3 @@
 <!--pages/detail/detail.wxml-->
-<view>rrrr</view>
+<import src="../../libs/wxParse/wxParse.wxml" />
+<template is="wxParse" data="{{wxParseData:article}}"></template>

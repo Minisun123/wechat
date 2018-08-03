@@ -1,4 +1,5 @@
 // pages/detail/detail.js
+const WxParse = require('../../libs/wxParse/wxParse.js');
 Page({
 
   /**
@@ -12,10 +13,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.error(options.url);
+    const self = this;
     wx.request({
-      url:'http://localhost:6000/',
+      url:'https://cz.droomo.top/juejin/post/' + options.url,
       success:function(data) {
-        console.log(data)
+        console.log(data.data)
+        WxParse.wxParse('article', 'html', data.data, self, 5);
       }
     })
   },

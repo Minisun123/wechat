@@ -1,4 +1,3 @@
-/* pages/detail/detail.wxss */
 
 /**
  * author: Di (微信小程序开发工程师)
@@ -11,7 +10,7 @@
  * detail : http://weappdev.com/t/wxparse-alpha0-1-html-markdown/184
  */
 
- .wxParse{
+.wxParse{
     margin: 0 5px;
     font-family: Helvetica,sans-serif;
     font-size: 28rpx;

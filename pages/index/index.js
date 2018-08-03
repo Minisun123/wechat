@@ -9,9 +9,12 @@ Page(observer(
     data: {
     },
     //事件处理函数
-    bindViewTap: function () {
+    bindViewTap: function (event) {
+      let url = event.currentTarget.dataset.url + '';
+      url = url.replace('https://juejin.im/post/','');
+      url = '../detail/detail?url=' + url;
       wx.navigateTo({
-        url: '../detail/detail'
+        url
       })
     },
     async onLoad() {
