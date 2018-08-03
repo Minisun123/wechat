@@ -1,2 +1,6 @@
 <!--pages/detail/detail.wxml-->
-<view>rrrr</view>
+<view>
+    <icon class="svg svg-icon-aixin"></icon>
+    <icon class="svg svg-icon-ziyuan8"></icon>
+    <icon class="iconfont icon-aixin"></icon>
+</view>

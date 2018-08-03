@@ -1,3 +1,6 @@
+const path = require('path');
+const fs = require('fs');
+
 const gulp = require('gulp');
 const less = require('gulp-less');
 const cached = require('gulp-cached');
@@ -5,11 +8,33 @@ const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const concat = require('gulp-concat');
 const gulpFont2Base64 = require('gulp-font2base64');
-const path = require('path');
+const svgcss = require('gulp-svg-css');
+const svgmin = require('gulp-svgmin');
 
 const lessSrc = ['./pages/**/*.less', './components/**/*.less'];
 const fontSrc = './fonts/*.ttf';
+const svgSrc = './svg/*.svg';
 const appcssSrc = './app.css';
+
+/** 
+ * 根据iconfontjs里面的svg数据生成svg文件
+ */
+function resolveSvgFromIconfontJs() {
+    let iconfontjs = fs.readFileSync('./fonts/iconfont.js', { encoding: 'utf-8' });
+    iconfontjs.replace(/<svg>(.*)<\/svg>/, function (match, p1) {
+        let svgstr = p1.replace(/symbol/ig, 'svg');
+        let svgstrarr = svgstr.match(/<svg .*?(<\/svg>)/ig);
+
+        let xmlns = 'xmlns="http://www.w3.org/2000/svg"'; // iconfontjs里面的svg没有这个命名空间，需要补上才可以显示svg
+
+        svgstrarr.forEach(svg => {
+            let newSvg = svg.replace(/id=".*?"/, '$& ' + xmlns);
+            newSvg.replace(/id="(.*?)"/, (match, $1) => { // 获取id名作为文件名
+                fs.writeFileSync(`./svg/${$1}.svg`, newSvg);
+            })
+        })
+    })
+}
 
 gulp.task('less', function () {
     gulp.src(lessSrc)
@@ -39,8 +64,21 @@ gulp.task('font2', function () {
         .pipe(gulp.dest('./fonts/'));
 });
 
-gulp.task('concat', ['font2'], function () {
-    gulp.src(['./app.css', './fonts/iconfont.ttf.css', './fonts/iconfont.css'])
+gulp.task('svg', function () {
+    resolveSvgFromIconfontJs();
+    gulp.src(svgSrc)
+        .pipe(svgmin())
+        .pipe(svgcss({
+            fileName: 'iconfontsvg',
+            cssPrefix: '.svg.svg-',
+            addSize: false,
+            cssSelector: ' '
+        }))
+        .pipe(gulp.dest('./fonts/'))
+});
+
+gulp.task('concat', ['font2','svg'], function () {
+    gulp.src(['./app.css', './fonts/iconfont.ttf.css', './fonts/iconfont.css', './fonts/iconfontsvg.css'])
         .pipe(concat('app.wxss'))
         .pipe(gulp.dest('./'));
 })
